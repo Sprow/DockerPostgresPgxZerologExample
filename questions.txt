@@ -1,0 +1,13 @@
+==Logging==
+1.Куда сохранять log.txt (щас сохраняет в project_name/internal/logger/log.txt
+2.Что стоит добавить/убрать в конфиг логера?
+
+==json.iterator==
+Правильно ли используется? decoder := jsoniter.NewDecoder(...) (cmd/serve/handler/handler.go)
+Или надо задавать конфиг
+var json = jsoniter.ConfigCompatibleWithStandardLibrary в main.go и прокидывать его как-то?
+
+==Docker==
+Стоит ли разобраться в теме уменьшения размеров образов?
+
+== code review ==

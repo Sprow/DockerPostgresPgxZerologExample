@@ -1,0 +1,2 @@
+{"level":"error","stack":[{"func":"loggerStackShowcase","line":"41","source":"main.go"},{"func":"main","line":"17","source":"main.go"},{"func":"main","line":"250","source":"proc.go"},{"func":"goexit","line":"1571","source":"asm_amd64.s"}],"error":"logger stack showcase","time":"2022-05-25T11:55:50+03:00","caller":"main.go:19"}
+{"level":"info","time":"2022-05-25T11:55:50+03:00","caller":"dbSettings.go:37","message":"Database connection established"}

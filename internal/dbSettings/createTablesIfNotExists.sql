@@ -1,0 +1,9 @@
+
+-- CREATE SCHEMA IF NOT EXISTS base
+
+CREATE TABLE IF NOT EXISTS important_data(
+    id uuid PRIMARY KEY NOT NULL,
+    data1 VARCHAR(50),
+    data2 INTEGER,
+    created_at TIMESTAMPTZ NOT NULL
+);
