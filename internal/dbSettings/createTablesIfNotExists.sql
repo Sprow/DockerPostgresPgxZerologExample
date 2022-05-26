@@ -4,6 +4,6 @@
 CREATE TABLE IF NOT EXISTS important_data(
     id uuid PRIMARY KEY NOT NULL,
     data1 VARCHAR(50),
-    data2 INTEGER,
+    data2 VARCHAR(50),
     created_at TIMESTAMPTZ NOT NULL
 );

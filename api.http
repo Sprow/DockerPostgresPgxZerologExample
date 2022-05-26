@@ -2,8 +2,8 @@ POST  http://127.0.0.1:8080/add_data
 Content-Type: application/json
 
 {
-  "data1": "Jonny",
-  "data2": 9999
+  "data1": "Tom",
+  "data2": "9999"
 }
 
 ###
@@ -12,7 +12,7 @@ POST  http://127.0.0.1:8080/remove_data
 Content-Type: application/json
 
 {
-  "id": "1a6c3154-2789-414f-8895-aa13d7993d8b"
+  "id": "12ac3f62-9bb4-43c8-b12b-b8e404ef0e5a"
 }
 
 ###
@@ -21,9 +21,9 @@ POST  http://127.0.0.1:8080/update_data
 Content-Type: application/json
 
 {
-  "id": "6e9c0e2f-0385-4923-bc27-668de0bc3e03",
+  "id": "0915e53c-74d9-4435-986e-ed6c1239487f",
   "data1": "Fil",
-  "data2": 1234567
+  "data2": "1234567"
 }
 
 ###

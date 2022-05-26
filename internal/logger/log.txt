@@ -1,2 +1,19 @@
-{"level":"error","stack":[{"func":"loggerStackShowcase","line":"41","source":"main.go"},{"func":"main","line":"17","source":"main.go"},{"func":"main","line":"250","source":"proc.go"},{"func":"goexit","line":"1571","source":"asm_amd64.s"}],"error":"logger stack showcase","time":"2022-05-25T11:55:50+03:00","caller":"main.go:19"}
-{"level":"info","time":"2022-05-25T11:55:50+03:00","caller":"dbSettings.go:37","message":"Database connection established"}
+{"level":"info","time":"2022-05-26T16:13:27+03:00","caller":"dbSettings.go:36","message":"Database connection established"}
+{"level":"debug","request":"#0000000100000001 - 127.0.0.1:8080<->127.0.0.1:35916 - GET http://localhost:8080/","time":"2022-05-26T16:13:29+03:00","caller":"handler.go:13"}
+{"level":"debug","len":8,"time":"2022-05-26T16:13:29+03:00","caller":"handler.go:28","message":"get all data"}
+{"level":"debug","request":"#0000000300000001 - 127.0.0.1:8080<->127.0.0.1:35920 - POST http://127.0.0.1:8080/update_data","time":"2022-05-26T16:13:49+03:00","caller":"handler.go:86"}
+{"level":"error","error":"data.Obj.Data2: Data1: ID: textUnmarshalerDecoder: invalid UUID length: 35, error found in #10 byte of ...|2daf7b894\",\n  \"data1|..., bigger context ...|{\n  \"id\": \"32ccc359-2e5a-41fb-aff2-372daf7b894\",\n  \"data1\": \"Fil\",\n  \"data2\": \"1234567\"\n}|...","time":"2022-05-26T16:13:49+03:00","caller":"handler.go:90","message":"can't unmarshal update request body"}
+{"level":"debug","request":"#0000000400000001 - 127.0.0.1:8080<->127.0.0.1:35922 - POST http://127.0.0.1:8080/remove_data","time":"2022-05-26T16:14:24+03:00","caller":"handler.go:63"}
+{"level":"error","error":"webserver.objID.ID: textUnmarshalerDecoder: invalid UUID length: 37, error found in #10 byte of ...|af7b894b2\"\n}|..., bigger context ...|{\n  \"id\": \"32ccc359-2e5a-41fb-aff2-372daf7b894b2\"\n}|...","time":"2022-05-26T16:14:24+03:00","caller":"handler.go:67","message":"can't unmarshal req.body"}
+{"level":"debug","request":"#0000000500000001 - 127.0.0.1:8080<->127.0.0.1:35924 - POST http://127.0.0.1:8080/add_data","time":"2022-05-26T16:14:54+03:00","caller":"handler.go:35"}
+{"level":"error","error":"data.Obj.Data2: Data1: ReadString: expects \" or n, but found 5, error found in #10 byte of ...|\"data1\": 5,\n  \"data2|..., bigger context ...|{\n  \"data1\": 5,\n  \"data2\": \"9999\"\n}|...","time":"2022-05-26T16:14:54+03:00","caller":"handler.go:38","message":"can't unmarshal req.body"}
+{"level":"debug","request":"#0000000600000001 - 127.0.0.1:8080<->127.0.0.1:35926 - POST http://127.0.0.1:8080/add_data","time":"2022-05-26T16:15:03+03:00","caller":"handler.go:35"}
+{"level":"info","time":"2022-05-26T16:15:03+03:00","caller":"data.go:75","message":"add data => {12ac3f62-9bb4-43c8-b12b-b8e404ef0e5a Tom 9999 2022-05-26 16:15:03.413611397 +0300 EEST m=+95.458973831}"}
+{"level":"debug","request":"#0000000100000002 - 127.0.0.1:8080<->127.0.0.1:35916 - GET http://localhost:8080/","time":"2022-05-26T16:15:10+03:00","caller":"handler.go:13"}
+{"level":"debug","len":9,"time":"2022-05-26T16:15:10+03:00","caller":"handler.go:28","message":"get all data"}
+{"level":"debug","request":"#0000000800000001 - 127.0.0.1:8080<->127.0.0.1:35930 - POST http://127.0.0.1:8080/remove_data","time":"2022-05-26T16:15:19+03:00","caller":"handler.go:63"}
+{"level":"debug","time":"2022-05-26T16:15:19+03:00","caller":"data.go:89","message":"result => DELETE 1"}
+{"level":"debug","request":"#0000000900000001 - 127.0.0.1:8080<->127.0.0.1:35932 - POST http://127.0.0.1:8080/update_data","time":"2022-05-26T16:15:45+03:00","caller":"handler.go:86"}
+{"level":"debug","time":"2022-05-26T16:15:45+03:00","caller":"data.go:105","message":"result => UPDATE 1"}
+{"level":"debug","request":"#0000000100000003 - 127.0.0.1:8080<->127.0.0.1:35916 - GET http://localhost:8080/","time":"2022-05-26T16:15:50+03:00","caller":"handler.go:13"}
+{"level":"debug","len":8,"time":"2022-05-26T16:15:50+03:00","caller":"handler.go:28","message":"get all data"}

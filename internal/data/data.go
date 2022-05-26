@@ -23,7 +23,7 @@ func NewManager(pool *pgxpool.Pool, log zerolog.Logger) *Manager {
 type Obj struct {
 	ID        uuid.UUID `json:"id,omitempty"`
 	Data1     string    `json:"data1"`
-	Data2     int       `json:"data2"`
+	Data2     string    `json:"data2"`
 	CreatedAt time.Time `json:"created_at,omitempty"`
 }
 
@@ -86,7 +86,7 @@ func (m *Manager) RemoveDataObj(ctx context.Context, id uuid.UUID) error {
 	if err != nil {
 		return err
 	}
-	m.log.Info().Msgf("result => %v", res)
+	m.log.Debug().Msgf("result => %v", res)
 	return err
 }
 
@@ -102,6 +102,6 @@ func (m *Manager) UpdateDataObj(ctx context.Context, obj Obj) error {
 	if err != nil {
 		return err
 	}
-	m.log.Info().Msgf("result => %v", res)
+	m.log.Debug().Msgf("result => %v", res)
 	return nil
 }
