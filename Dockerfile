@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-EXPOSE 8080 8080
+EXPOSE 3000 3000
 
 RUN go build -o ./serve DockerPostgreExample/cmd/serve
 

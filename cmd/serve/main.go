@@ -30,7 +30,7 @@ func main() {
 	router := chi.NewRouter()
 	h.Register(router)
 
-	err = http.ListenAndServe(":8080", router)
+	err = http.ListenAndServe(":3000", router)
 	if err != nil {
 		log.Fatal().Stack().Err(err).Msg("")
 	}
