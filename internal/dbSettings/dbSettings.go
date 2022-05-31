@@ -27,8 +27,11 @@ func Initialize() (*pgxpool.Pool, error) {
 	databaseUrl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		os.Getenv("POSTGRES_USER"), os.Getenv("POSTGRES_PASSWORD"),
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_PORT"), os.Getenv("POSTGRES_DB"))
+	connConf, err := pgxpool.ParseConfig(databaseUrl)
+	connConf.MinConns = 5
+	//connConf.MaxConns = 20
 
-	dbpool, err := pgxpool.Connect(context.Background(), databaseUrl)
+	dbpool, err := pgxpool.ConnectConfig(context.Background(), connConf)
 	if err != nil {
 		logger.Log.Error().Stack().Err(err).Msg("Unable to connect to database")
 		os.Exit(1)
