@@ -12,7 +12,13 @@ import (
 	"strings"
 )
 
-func NewLogger() zerolog.Logger {
+var Log *Logger
+
+type Logger struct {
+	*zerolog.Logger
+}
+
+func Init() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel) // <--- change level
 
 	dir, err := os.Getwd()
@@ -32,7 +38,10 @@ func NewLogger() zerolog.Logger {
 
 	zlog := zerolog.New(multi).With().Timestamp().Stack().Logger()
 	zlog = zlog.Hook(CallerHook{})
-	return zlog
+
+	Log = &Logger{
+		Logger: &zlog,
+	}
 }
 
 type CallerHook struct{}

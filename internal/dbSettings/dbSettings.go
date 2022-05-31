@@ -1,26 +1,26 @@
 package dbSettings
 
 import (
+	"DockerPostgreExample/internal/logger"
 	"context"
 	_ "embed"
 	"fmt"
 	"github.com/jackc/pgx/v4/pgxpool"
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/joho/godotenv"
-	"github.com/rs/zerolog"
 	"os"
 	"path/filepath"
 )
 
-func Initialize(log zerolog.Logger) (*pgxpool.Pool, error) {
+func Initialize() (*pgxpool.Pool, error) {
 	dir, err := os.Getwd()
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 	environmentPath := filepath.Join(dir, ".env")
 	err = godotenv.Load(environmentPath) // load .env
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 
 	// change POSTGRES_HOST=localhost if run not in docker container
@@ -30,20 +30,20 @@ func Initialize(log zerolog.Logger) (*pgxpool.Pool, error) {
 
 	dbpool, err := pgxpool.Connect(context.Background(), databaseUrl)
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("Unable to connect to database")
+		logger.Log.Error().Stack().Err(err).Msg("Unable to connect to database")
 		os.Exit(1)
 	}
-	log.Info().Msg("Database connection established")
+	logger.Log.Info().Msg("Database connection established")
 
 	conn, err := dbpool.Acquire(context.Background())
 	if err != nil {
-		log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
+		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 
 	err = createTablesIfNotExists(conn) //create tables if not exists
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 
 	return dbpool, err

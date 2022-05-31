@@ -11,28 +11,28 @@ import (
 )
 
 func main() {
-	log := logger.NewLogger()
+	logger.Init()
 
 	err := loggerStackShowcase()
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 
-	db, err := dbSettings.Initialize(log)
+	db, err := dbSettings.Initialize()
 	if err != nil {
-		log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 	defer db.Close()
 
-	m := data.NewManager(db, log)
-	h := handler.NewHandler(m, log)
+	m := data.NewManager(db)
+	h := handler.NewHandler(m)
 
 	router := chi.NewRouter()
 	h.Register(router)
 
 	err = http.ListenAndServe(":8080", router)
 	if err != nil {
-		log.Fatal().Stack().Err(err).Msg("")
+		logger.Log.Fatal().Stack().Err(err).Msg("")
 	}
 }
 

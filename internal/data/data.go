@@ -1,22 +1,20 @@
 package data
 
 import (
+	"DockerPostgreExample/internal/logger"
 	"context"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/rs/zerolog"
 	"time"
 )
 
 type Manager struct {
 	pool *pgxpool.Pool
-	log  zerolog.Logger
 }
 
-func NewManager(pool *pgxpool.Pool, log zerolog.Logger) *Manager {
+func NewManager(pool *pgxpool.Pool) *Manager {
 	return &Manager{
 		pool: pool,
-		log:  log,
 	}
 }
 
@@ -31,13 +29,13 @@ func (m *Manager) GetAllData(ctx context.Context) ([]Obj, error) {
 	var data []Obj
 	conn, err := m.pool.Acquire(ctx) // get connection from pgx pool
 	if err != nil {
-		m.log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
+		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 
 	rows, err := conn.Query(ctx, "SELECT * FROM important_data")
 	if err != nil {
-		m.log.Fatal().Stack().Err(err).Msg("")
+		logger.Log.Fatal().Stack().Err(err).Msg("")
 
 		return data, err
 	}
@@ -47,7 +45,7 @@ func (m *Manager) GetAllData(ctx context.Context) ([]Obj, error) {
 		var obj Obj
 		err = rows.Scan(&obj.ID, &obj.Data1, &obj.Data2, &obj.CreatedAt)
 		if err != nil {
-			m.log.Fatal().Stack().Err(err).Msg("")
+			logger.Log.Fatal().Stack().Err(err).Msg("")
 
 			return data, err
 		}
@@ -62,7 +60,7 @@ func (m *Manager) AddDataObj(ctx context.Context, obj Obj) error {
 
 	conn, err := m.pool.Acquire(ctx)
 	if err != nil {
-		m.log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
+		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 
@@ -72,28 +70,28 @@ func (m *Manager) AddDataObj(ctx context.Context, obj Obj) error {
 	if err != nil {
 		return err
 	}
-	m.log.Info().Msgf("add data => %v", obj)
+	logger.Log.Info().Msgf("add data => %v", obj)
 	return nil
 }
 
 func (m *Manager) RemoveDataObj(ctx context.Context, id uuid.UUID) error {
 	conn, err := m.pool.Acquire(ctx)
 	if err != nil {
-		m.log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
+		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 	res, err := conn.Exec(ctx, "DELETE FROM important_data WHERE id=$1", id)
 	if err != nil {
 		return err
 	}
-	m.log.Info().Msgf("result => %v", res)
+	logger.Log.Info().Msgf("result => %v", res)
 	return err
 }
 
 func (m *Manager) UpdateDataObj(ctx context.Context, obj Obj) error {
 	conn, err := m.pool.Acquire(ctx)
 	if err != nil {
-		m.log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
+		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 
@@ -102,6 +100,6 @@ func (m *Manager) UpdateDataObj(ctx context.Context, obj Obj) error {
 	if err != nil {
 		return err
 	}
-	m.log.Info().Msgf("result => %v", res)
+	logger.Log.Info().Msgf("result => %v", res)
 	return nil
 }

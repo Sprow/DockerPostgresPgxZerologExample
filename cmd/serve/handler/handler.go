@@ -2,22 +2,20 @@ package handler
 
 import (
 	"DockerPostgreExample/internal/data"
+	"DockerPostgreExample/internal/logger"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/rs/zerolog"
 	"net/http"
 )
 
 type Handler struct {
 	dataManager *data.Manager
-	log         zerolog.Logger
 }
 
-func NewHandler(dataManager *data.Manager, log zerolog.Logger) *Handler {
+func NewHandler(dataManager *data.Manager) *Handler {
 	return &Handler{
 		dataManager: dataManager,
-		log:         log,
 	}
 }
 
@@ -31,12 +29,12 @@ func (h *Handler) Register(r *chi.Mux) {
 func (h *Handler) getAllData(w http.ResponseWriter, r *http.Request) {
 	d, err := h.dataManager.GetAllData(r.Context())
 	if err != nil {
-		h.log.Error().Err(err).Msg("")
+		logger.Log.Error().Err(err).Msg("")
 	}
 	encoder := jsoniter.NewEncoder(w)
 	err = encoder.Encode(d)
 	if err != nil {
-		h.log.Error().Err(err).Msg("")
+		logger.Log.Error().Err(err).Msg("")
 	}
 }
 
@@ -46,11 +44,11 @@ func (h *Handler) addData(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&dataObj)
 	if err != nil { // bad request
 		w.WriteHeader(http.StatusBadRequest)
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 	err = h.dataManager.AddDataObj(r.Context(), dataObj)
 	if err != nil {
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 }
 
@@ -64,11 +62,11 @@ func (h *Handler) removeData(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 	err = h.dataManager.RemoveDataObj(r.Context(), id.ID)
 	if err != nil {
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 }
 
@@ -78,10 +76,10 @@ func (h *Handler) updateData(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&dataObj)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 	err = h.dataManager.UpdateDataObj(r.Context(), dataObj)
 	if err != nil {
-		h.log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("")
 	}
 }
