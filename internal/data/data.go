@@ -68,11 +68,10 @@ func (m *Manager) RemoveDataObj(ctx context.Context, id int) error {
 		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
-	res, err := conn.Exec(ctx, "DELETE FROM important_data WHERE id=$1", id)
+	_, err = conn.Exec(ctx, "DELETE FROM important_data WHERE id=$1", id)
 	if err != nil {
 		return err
 	}
-	logger.Log.Info().Msgf("result => %v", res)
 	return err
 }
 

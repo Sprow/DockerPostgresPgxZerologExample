@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/pkgerrors"
 	"log"
@@ -18,6 +19,11 @@ type Logger struct {
 	*zerolog.Logger
 }
 
+func Stack(err error) error {
+	//TODO delete first element from stack
+	return errors.New(err.Error())
+}
+
 func Init() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel) // <--- change level
 
@@ -26,7 +32,7 @@ func Init() {
 		log.Fatal(err)
 	}
 
-	var logsPath = fmt.Sprintf("%v/internal/logger/log.txt", dir) // куда сохранять логи?
+	var logsPath = fmt.Sprintf("%v/internal/logger/log.txt", dir)
 	logFile, err := os.Create(logsPath)
 	if err != nil {
 		log.Fatal(err)

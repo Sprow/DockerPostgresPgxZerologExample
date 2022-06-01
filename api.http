@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "data1": "Jonny",
-  "data2": "77777"
+  "data2": "555"
 }
 
 ###
@@ -12,7 +12,7 @@ POST  http://127.0.0.1:8080/remove_data
 Content-Type: application/json
 
 {
-  "id": 5
+  "id": 2
 }
 
 ###
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
   "id": 3,
-  "data1": "Fillll",
+  "data1": "fiasdasd",
   "data2": "1234567"
 }
 
