@@ -4,7 +4,6 @@ import (
 	"DockerPostgreExample/internal/data"
 	"DockerPostgreExample/internal/logger"
 	"github.com/go-chi/chi/v5"
-	"github.com/google/uuid"
 	jsoniter "github.com/json-iterator/go"
 	"net/http"
 )
@@ -45,15 +44,24 @@ func (h *Handler) addData(w http.ResponseWriter, r *http.Request) {
 	if err != nil { // bad request
 		w.WriteHeader(http.StatusBadRequest)
 		logger.Log.Error().Stack().Err(err).Msg("")
+		return
+	}
+	if err = dataObj.IsValid(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		logger.Log.Error().Err(err).Msg("")
+		return
 	}
 	err = h.dataManager.AddDataObj(r.Context(), dataObj)
 	if err != nil {
 		logger.Log.Error().Stack().Err(err).Msg("")
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
+	w.WriteHeader(http.StatusCreated)
 }
 
 type objID struct {
-	ID uuid.UUID `json:"id"`
+	ID int `json:"id"`
 }
 
 func (h *Handler) removeData(w http.ResponseWriter, r *http.Request) {
@@ -62,11 +70,14 @@ func (h *Handler) removeData(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		logger.Log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("can't decode")
+		return
 	}
 	err = h.dataManager.RemoveDataObj(r.Context(), id.ID)
 	if err != nil {
-		logger.Log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("can's remove data")
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 }
 
@@ -76,10 +87,20 @@ func (h *Handler) updateData(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&dataObj)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		logger.Log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("can't decode")
+		return
 	}
+
+	if err = dataObj.IsValid(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		logger.Log.Error().Err(err).Msg("not valid data")
+		return
+	}
+
 	err = h.dataManager.UpdateDataObj(r.Context(), dataObj)
 	if err != nil {
-		logger.Log.Error().Stack().Err(err).Msg("")
+		logger.Log.Error().Stack().Err(err).Msg("can't update")
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 }

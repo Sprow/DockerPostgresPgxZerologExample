@@ -3,9 +3,7 @@ package data
 import (
 	"DockerPostgreExample/internal/logger"
 	"context"
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"time"
 )
 
 type Manager struct {
@@ -16,13 +14,6 @@ func NewManager(pool *pgxpool.Pool) *Manager {
 	return &Manager{
 		pool: pool,
 	}
-}
-
-type Obj struct {
-	ID        uuid.UUID `json:"id,omitempty"`
-	Data1     string    `json:"data1"`
-	Data2     int       `json:"data2"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
 }
 
 func (m *Manager) GetAllData(ctx context.Context) ([]Obj, error) {
@@ -55,18 +46,15 @@ func (m *Manager) GetAllData(ctx context.Context) ([]Obj, error) {
 }
 
 func (m *Manager) AddDataObj(ctx context.Context, obj Obj) error {
-	obj.ID = uuid.New()
-	obj.CreatedAt = time.Now()
-
 	conn, err := m.pool.Acquire(ctx)
 	if err != nil {
 		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")
 	}
 	defer conn.Release()
 
-	_, err = conn.Exec(ctx,
-		"INSERT INTO important_data (id, data1, data2, created_at) VALUES ($1, $2, $3, $4)",
-		obj.ID, obj.Data1, obj.Data2, obj.CreatedAt)
+	err = conn.QueryRow(ctx,
+		"INSERT INTO important_data (data1, data2) VALUES ($1, $2) RETURNING id, created_at",
+		obj.Data1, obj.Data2).Scan(&obj.ID, &obj.CreatedAt)
 	if err != nil {
 		return err
 	}
@@ -74,7 +62,7 @@ func (m *Manager) AddDataObj(ctx context.Context, obj Obj) error {
 	return nil
 }
 
-func (m *Manager) RemoveDataObj(ctx context.Context, id uuid.UUID) error {
+func (m *Manager) RemoveDataObj(ctx context.Context, id int) error {
 	conn, err := m.pool.Acquire(ctx)
 	if err != nil {
 		logger.Log.Fatal().Stack().Err(err).Msg("Unable to acquire a database connection")

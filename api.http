@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "data1": "Jonny",
-  "data2": 9999
+  "data2": "77777"
 }
 
 ###
@@ -12,7 +12,7 @@ POST  http://127.0.0.1:8080/remove_data
 Content-Type: application/json
 
 {
-  "id": "1a6c3154-2789-414f-8895-aa13d7993d8b"
+  "id": 5
 }
 
 ###
@@ -21,9 +21,9 @@ POST  http://127.0.0.1:8080/update_data
 Content-Type: application/json
 
 {
-  "id": "6e9c0e2f-0385-4923-bc27-668de0bc3e03",
-  "data1": "Fil",
-  "data2": 1234567
+  "id": 3,
+  "data1": "Fillll",
+  "data2": "1234567"
 }
 
 ###
