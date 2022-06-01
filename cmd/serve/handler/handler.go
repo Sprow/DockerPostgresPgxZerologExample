@@ -18,13 +18,6 @@ func NewHandler(dataManager *data.Manager) *Handler {
 	}
 }
 
-//func (h *Handler) Register(r *chi.Mux) {
-//	r.Get("/", h.getAllData)
-//	r.Post("/add_data", h.addData)
-//	r.Post("/remove_data", h.removeData)
-//	r.Post("/update_data", h.updateData)
-//}
-
 func (h *Handler) getAllData(ctx *fasthttp.RequestCtx) {
 	d, err := h.dataManager.GetAllData(ctx)
 	if err != nil {
@@ -42,12 +35,6 @@ func (h *Handler) getAllData(ctx *fasthttp.RequestCtx) {
 		return
 	}
 	ctx.SetContentType("application/json")
-
-	//err = encoder.Encode(d)
-	//if err != nil {
-	//	logger.Log.Error().Err(err).Msg("")
-	//}
-
 }
 
 func (h *Handler) addData(ctx *fasthttp.RequestCtx) {
@@ -60,6 +47,7 @@ func (h *Handler) addData(ctx *fasthttp.RequestCtx) {
 	}
 	if err = dataObj.IsValid(); err != nil {
 		logger.Log.Error().Err(err).Msg("invalid data")
+		//example log with stack
 		//logger.Log.Error().Stack().Err(logger.Stack(err)).Msg("invalid data")
 		ctx.Error("invalid data", fasthttp.StatusBadRequest)
 		return
@@ -72,26 +60,6 @@ func (h *Handler) addData(ctx *fasthttp.RequestCtx) {
 	}
 	ctx.SetStatusCode(http.StatusCreated)
 	return
-	//decoder := jsoniter.NewDecoder(r.Body)
-	//var dataObj data.Obj
-	//err := decoder.Decode(&dataObj)
-	//if err != nil { // bad request
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	logger.Log.Error().Stack().Err(err).Msg("")
-	//	return
-	//}
-	//if err = dataObj.IsValid(); err != nil {
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	logger.Log.Error().Err(err).Msg("")
-	//	return
-	//}
-	//err = h.dataManager.AddDataObj(r.Context(), dataObj)
-	//if err != nil {
-	//	logger.Log.Error().Stack().Err(err).Msg("")
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	return
-	//}
-	//w.WriteHeader(http.StatusCreated)
 }
 
 type objID struct {
@@ -115,21 +83,6 @@ func (h *Handler) removeData(ctx *fasthttp.RequestCtx) {
 	logger.Log.Info().Msgf("remove Object id=%d", id.ID)
 	ctx.SetStatusCode(fasthttp.StatusOK)
 	return
-
-	//decoder := jsoniter.NewDecoder(r.Body)
-	//var id objID
-	//err := decoder.Decode(&id)
-	//if err != nil {
-	//	w.WriteHeader(http.StatusBadRequest)
-	//	logger.Log.Error().Stack().Err(err).Msg("can't decode")
-	//	return
-	//}
-	//err = h.dataManager.RemoveDataObj(r.Context(), id.ID)
-	//if err != nil {
-	//	logger.Log.Error().Stack().Err(err).Msg("can's remove data")
-	//	w.WriteHeader(http.StatusNotFound)
-	//	return
-	//}
 }
 
 func (h *Handler) updateData(ctx *fasthttp.RequestCtx) {
