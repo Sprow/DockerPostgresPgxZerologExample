@@ -1,21 +1,13 @@
 Example
 
-Docker + postgres + pgx.pool + zerolog + json.iterator 
+Docker + postgres + pgx.pool + zerolog + json.iterator +nginx
 
---------------------------------
-
-run postgres db in docker
-```docker run --name postgreDB -p 5432:5432 -e POSTGRES_USER=Jonny -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=data_db --rm postgres```
-
-run server without docker 
-run cmd/serve/main.go
-
-----------------------------------------
-second way to run
-
-run both in docker containers
-
-change POSTGRES_HOST to "database" (POSTGRES_HOST=database) in .env file and type 
 ```docker-compose build```
 
 ```docker-compose up```
+
+To run nginx with upstream (server x2)
+
+```docker-compose up --scale server=2```
+
+go to => http://localhost:8080/
