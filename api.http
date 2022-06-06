@@ -12,7 +12,7 @@ POST  http://127.0.0.1:8080/remove_data
 Content-Type: application/json
 
 {
-  "id": 5
+  "id": 67
 }
 
 ###
