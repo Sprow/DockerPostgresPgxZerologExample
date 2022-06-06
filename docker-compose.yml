@@ -1,14 +1,13 @@
 version: "3.7"
 
 services:
-  database: # <= POSTGRES_HOST in postgres connection URL (POSTGRES_HOST=localhost if run not in docker container)
-    image: postgres
-    restart: always
-    env_file: .env
+  nginx:
+    build: nginx
     ports:
-      - "5432:5432"
-    volumes:
-      - data:/var/lib/postgresql/data
+      - "8080:80"
+#      - "80:80"
+    depends_on:
+      - server
 
   server:
     build:
@@ -19,9 +18,44 @@ services:
       - ./.env
     depends_on:
       - database
-    networks:
-      - default
+  #    ports:
+  #      - "8080"
+
+  database: # <= POSTGRES_HOST in postgres connection URL (POSTGRES_HOST=localhost if run not in docker container)
+    image: postgres
+    restart: always
+    env_file: .env
     ports:
-      - "8080:8080"
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
 volumes:
   data:
+
+#version: "3.7"
+#
+#services:
+#  database: # <= POSTGRES_HOST in postgres connection URL (POSTGRES_HOST=localhost if run not in docker container)
+#    image: postgres
+#    restart: always
+#    env_file: .env
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - data:/var/lib/postgresql/data
+#
+#  server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    restart: always
+#    env_file:
+#      - ./.env
+#    depends_on:
+#      - database
+#    networks:
+#      - default
+#    ports:
+#      - "8080:8080"
+#volumes:
+#  data:
