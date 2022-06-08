@@ -1,2 +1,5 @@
-{"level":"error","stack":[{"func":"loggerStackShowcase","line":"42","source":"main.go"},{"func":"main","line":"16","source":"main.go"},{"func":"main","line":"250","source":"proc.go"},{"func":"goexit","line":"1571","source":"asm_amd64.s"}],"error":"logger stack showcase","time":"2022-06-01T10:57:46+03:00","caller":"main.go:18"}
-{"level":"info","time":"2022-06-01T10:57:46+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
+{"level":"info","time":"2022-06-08T11:51:46+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
+{"level":"info","time":"2022-06-08T11:51:46+03:00","caller":"main.go:33","message":"redis ping: PONG"}
+{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"handler.go:45","message":" in getDataById"}
+{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"data.go:112","message":"OBJECT >>>> {3 Jonny2 last2 0001-01-01 00:00:00 +0000 UTC}"}
+{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"data.go:114","message":"return obj id=3 from redis"}

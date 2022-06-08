@@ -2,8 +2,8 @@ POST  http://127.0.0.1:8080/add_data
 Content-Type: application/json
 
 {
-  "data1": "Jonny",
-  "data2": "last"
+  "data1": "Jonny2",
+  "data2": "last2"
 }
 
 ###
@@ -27,3 +27,12 @@ Content-Type: application/json
 }
 
 ###
+
+GET  http://127.0.0.1:8080/3
+Content-Type: application/json
+
+
+###
+
+GET  http://127.0.0.1:8080/
+Content-Type: application/json

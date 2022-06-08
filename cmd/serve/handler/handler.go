@@ -2,10 +2,12 @@ package handler
 
 import (
 	"DockerPostgreExample/internal/data"
+	"DockerPostgreExample/internal/dto"
 	"DockerPostgreExample/internal/logger"
 	"github.com/go-chi/chi/v5"
 	jsoniter "github.com/json-iterator/go"
 	"net/http"
+	"strconv"
 )
 
 type Handler struct {
@@ -20,12 +22,14 @@ func NewHandler(dataManager *data.Manager) *Handler {
 
 func (h *Handler) Register(r *chi.Mux) {
 	r.Get("/", h.getAllData)
+	r.Get("/{id:[0-9]+}", h.getDataById)
 	r.Post("/add_data", h.addData)
 	r.Post("/remove_data", h.removeData)
 	r.Post("/update_data", h.updateData)
 }
 
 func (h *Handler) getAllData(w http.ResponseWriter, r *http.Request) {
+	logger.Log.Info().Msg(" in getAllData")
 	d, err := h.dataManager.GetAllData(r.Context())
 	if err != nil {
 		logger.Log.Error().Err(err).Msg("")
@@ -37,9 +41,27 @@ func (h *Handler) getAllData(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *Handler) getDataById(w http.ResponseWriter, r *http.Request) {
+	logger.Log.Info().Msg(" in getDataById")
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+
+	if err != nil {
+		logger.Log.Error().Err(err).Msg("")
+	}
+	obj, err := h.dataManager.GetObjById(r.Context(), id)
+	if err != nil {
+		logger.Log.Error().Err(err).Msg("")
+	}
+	encoder := jsoniter.NewEncoder(w)
+	err = encoder.Encode(obj)
+	if err != nil {
+		logger.Log.Error().Err(err).Msg("")
+	}
+}
+
 func (h *Handler) addData(w http.ResponseWriter, r *http.Request) {
 	decoder := jsoniter.NewDecoder(r.Body)
-	var dataObj data.Obj
+	var dataObj dto.Obj
 	err := decoder.Decode(&dataObj)
 	if err != nil { // bad request
 		w.WriteHeader(http.StatusBadRequest)
@@ -83,7 +105,7 @@ func (h *Handler) removeData(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) updateData(w http.ResponseWriter, r *http.Request) {
 	decoder := jsoniter.NewDecoder(r.Body)
-	var dataObj data.Obj
+	var dataObj dto.Obj
 	err := decoder.Decode(&dataObj)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
