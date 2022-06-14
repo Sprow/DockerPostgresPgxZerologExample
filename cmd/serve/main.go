@@ -29,6 +29,14 @@ func main() {
 	rdb := redis.NewRDB(redisConn)
 	//redis database end
 
+	subCh := rdb.Sub(context.Background(), "congrats")
+
+	go func() {
+		for msg := range subCh {
+			logger.Log.Info().Msg(msg.Payload)
+		}
+	}()
+
 	m := data.NewManager(db, rdb)
 	h := handler.NewHandler(m)
 

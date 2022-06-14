@@ -1,5 +1,8 @@
-{"level":"info","time":"2022-06-08T11:51:46+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
-{"level":"info","time":"2022-06-08T11:51:46+03:00","caller":"main.go:33","message":"redis ping: PONG"}
-{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"handler.go:45","message":" in getDataById"}
-{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"data.go:112","message":"OBJECT >>>> {3 Jonny2 last2 0001-01-01 00:00:00 +0000 UTC}"}
-{"level":"info","time":"2022-06-08T11:51:50+03:00","caller":"data.go:114","message":"return obj id=3 from redis"}
+{"level":"info","time":"2022-06-08T13:15:19+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
+{"level":"info","time":"2022-06-08T13:15:19+03:00","caller":"main.go:28","message":"redis ping: PONG"}
+{"level":"info","time":"2022-06-08T13:15:28+03:00","caller":"redis.go:25","message":"redis add data> hset obj:5 data1 Jonny2 data2 last2 created_at 2022-06-08T13:15:28.133972+03:00: 3"}
+{"level":"info","time":"2022-06-08T13:15:29+03:00","caller":"redis.go:25","message":"redis add data> hset obj:6 data1 Jonny2 data2 last2 created_at 2022-06-08T13:15:29.21959+03:00: 3"}
+{"level":"info","time":"2022-06-08T13:15:29+03:00","caller":"main.go:36","message":"congratulations to obj №6"}
+{"level":"info","time":"2022-06-08T13:15:42+03:00","caller":"redis.go:25","message":"redis add data> hset obj:7 data1 Jonny2 data2 last2 created_at 2022-06-08T13:15:42.771943+03:00: 3"}
+{"level":"info","time":"2022-06-08T13:15:43+03:00","caller":"redis.go:25","message":"redis add data> hset obj:8 data1 Jonny2 data2 last2 created_at 2022-06-08T13:15:43.721376+03:00: 3"}
+{"level":"info","time":"2022-06-08T13:15:43+03:00","caller":"main.go:36","message":"congratulations to obj №8"}
