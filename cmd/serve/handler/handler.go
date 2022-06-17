@@ -29,7 +29,6 @@ func (h *Handler) Register(r *chi.Mux) {
 }
 
 func (h *Handler) getAllData(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Info().Msg(" in getAllData")
 	d, err := h.dataManager.GetAllData(r.Context())
 	if err != nil {
 		logger.Log.Error().Err(err).Msg("")
@@ -42,7 +41,6 @@ func (h *Handler) getAllData(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) getDataById(w http.ResponseWriter, r *http.Request) {
-	logger.Log.Info().Msg(" in getDataById")
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 
 	if err != nil {
@@ -51,6 +49,8 @@ func (h *Handler) getDataById(w http.ResponseWriter, r *http.Request) {
 	obj, err := h.dataManager.GetObjById(r.Context(), id)
 	if err != nil {
 		logger.Log.Error().Err(err).Msg("")
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 	encoder := jsoniter.NewEncoder(w)
 	err = encoder.Encode(obj)
@@ -97,7 +97,7 @@ func (h *Handler) removeData(w http.ResponseWriter, r *http.Request) {
 	}
 	err = h.dataManager.RemoveDataObj(r.Context(), id.ID)
 	if err != nil {
-		logger.Log.Error().Stack().Err(err).Msg("can's remove data")
+		logger.Log.Error().Stack().Err(err).Msg("can't remove data")
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}

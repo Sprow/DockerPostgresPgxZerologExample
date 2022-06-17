@@ -66,7 +66,7 @@ func (m *Manager) AddDataObj(ctx context.Context, obj dto.Obj) error {
 	//logger.Log.Info().Msgf("postgres add data => %v", obj)
 
 	//redis
-	m.redisDB.AddDataObj(ctx, obj.ID, obj.Data1, obj.Data2, obj.CreatedAt)
+	m.redisDB.AddDataObj(ctx, obj)
 
 	return nil
 }
@@ -101,7 +101,7 @@ func (m *Manager) UpdateDataObj(ctx context.Context, obj dto.Obj) error {
 	}
 	logger.Log.Info().Msgf("result => %v", res)
 
-	m.redisDB.UpdateDataObj(ctx, obj.ID, obj.Data1, obj.Data2)
+	m.redisDB.UpdateDataObj(ctx, obj)
 	return nil
 }
 
@@ -109,8 +109,10 @@ func (m *Manager) GetObjById(ctx context.Context, id int) (dto.Obj, error) {
 	var obj dto.Obj
 
 	// return obj from redis if exists
-	redisObj := m.redisDB.GetObjById(ctx, id)
-	if redisObj != obj {
+	redisObj, err := m.redisDB.GetObjById(ctx, id)
+	if err != nil {
+		logger.Log.Info().Msgf("redis error: %v", err)
+	} else {
 		logger.Log.Info().Msgf("return obj id=%d from redis", id)
 		return redisObj, nil
 	}
@@ -129,6 +131,7 @@ func (m *Manager) GetObjById(ctx context.Context, id int) (dto.Obj, error) {
 	err = row.Scan(&obj.ID, &obj.Data1, &obj.Data2, &obj.CreatedAt)
 	if err != nil {
 		logger.Log.Error().Stack().Err(err).Msg("")
+		return obj, err
 	}
 	logger.Log.Info().Msgf("return obj id=%d from postgres", id)
 	return obj, err
