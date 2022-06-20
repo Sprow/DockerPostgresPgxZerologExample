@@ -1,2 +1,3 @@
-{"level":"info","time":"2022-06-17T10:26:13+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
-{"level":"info","time":"2022-06-17T10:26:13+03:00","caller":"main.go:28","message":"redis ping: PONG"}
+{"level":"info","time":"2022-06-20T15:53:34+03:00","caller":"dbSettings.go:39","message":"Database connection established"}
+{"level":"info","time":"2022-06-20T15:53:34+03:00","caller":"main.go:28","message":"redis ping: PONG"}
+{"level":"info","time":"2022-06-20T15:53:38+03:00","caller":"data.go:116","message":"return obj id=3 from redis"}

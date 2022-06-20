@@ -43,6 +43,7 @@ func (rdb *RDB) UpdateDataObj(ctx context.Context, obj dto.Obj) {
 func (rdb *RDB) GetObjById(ctx context.Context, id int) (dto.Obj, error) {
 	var obj dto.Obj
 
+	//err := rdb.client.HGetAll(ctx, redisID(id)).Scan(&obj) //error-redis.Scan(unsupported time.Time)
 	res, err := rdb.client.HGetAll(ctx, redisID(id)).Result()
 	if err != nil {
 		logger.Log.Error().Err(err).Msg("")
